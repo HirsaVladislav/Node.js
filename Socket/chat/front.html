@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test chat</title>
+  </head>
+  <body>
+    <input type="text" />
+    <button>Send</button>
+    <ul id="messages"></ul>
+
+    <!-- Import modules -->
+    <script type="importmap">
+      {
+        "imports": {
+          "socket.io-client": "https://cdn.socket.io/4.7.3/socket.io.esm.min.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import { io } from "socket.io-client";
+
+      // Connect to server by socket
+      const socket = io.connect("http://localhost:3000", {
+        path: "/socket.io",
+        autoConnect: true,
+        reconnection: false,
+        transports: ["websocket"],
+        secure: true,
+      });
+
+      // Listen event from server 
+      socket.on("server_answer", (msg) => {
+        // Write income message to list
+        var item = document.createElement("li");
+        item.textContent = msg;
+        messages.appendChild(item);
+      });
+
+      // Get selector for their handling
+      const input = document.querySelector("input");
+      const button = document.querySelector("button");
+
+      button.addEventListener("click", () => {
+        // Send message to server
+        socket.emit("message", input.value);
+
+        // Clear input
+        input.value = "";
+      });
+    </script>
+  </body>
+</html>
