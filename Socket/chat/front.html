@@ -32,11 +32,11 @@
         secure: true,
       });
 
-      // Listen event from server 
+      // Listen event from server
       socket.on("server_answer", (msg) => {
         // Write income message to list
         var item = document.createElement("li");
-        item.textContent = msg;
+        item.textContent = "Server message - " + msg;
         messages.appendChild(item);
       });
 
@@ -47,6 +47,11 @@
       button.addEventListener("click", () => {
         // Send message to server
         socket.emit("message", input.value);
+
+        // Write own message to list
+        var item = document.createElement("li");
+        item.textContent = "Own message - " + input.value;
+        messages.appendChild(item);
 
         // Clear input
         input.value = "";

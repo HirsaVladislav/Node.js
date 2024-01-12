@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
     console.log('Income message', msg);
 
     // Send message to client
-    socket.emit('server_answer', `Server has received your message: ${msg}`)
+    socket.emit('server_answer', 'I`m server')
   })
 });
 
