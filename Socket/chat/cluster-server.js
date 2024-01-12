@@ -58,7 +58,13 @@ if (cluster.isMaster) {
 
   // Create server for each worker
   const server = http.createServer(app);
-  const io = new Server(server);
+  const io = new Server(server, {
+    cors: {
+      // set also 'polling' for allowing http protocol as fallbacks
+      origin: ["http://localhost:3000"],
+    },
+    transports: ['websocket', 'polling'],
+  });
 
   // Send html file by root path: http://localhost:3000/
   app.get('/', (req, res) => {

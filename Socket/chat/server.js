@@ -4,7 +4,13 @@ const http = require('http');
 const path = require('path');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:3000"],
+  },
+  // set also 'polling' for allowing http protocol as fallbacks
+  transports: ['websocket', 'polling'],
+});
 const PORT = 3000;
 
 // Send html file by root path: http://localhost:3000/
